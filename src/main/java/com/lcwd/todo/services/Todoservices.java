@@ -1,8 +1,10 @@
 package com.lcwd.todo.services;
 
+import com.lcwd.todo.exceptions.ResourceNotFoundExcetion;
 import com.lcwd.todo.model.Todo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ return todos;
     }
 
     public static Todo getTodo(int todoId) {
- Todo todo=todos.stream().filter(t->todoId==t.getId()).findAny().get();
+ Todo todo=todos.stream().filter(t->todoId==t.getId()).findAny().orElseThrow(()->new ResourceNotFoundExcetion("Todo not found with given id", HttpStatus.NOT_FOUND));
  logger.info("TODO:{}",todo);
  return todo;
     }

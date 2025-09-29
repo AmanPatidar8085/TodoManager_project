@@ -17,13 +17,16 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/todos")
-public class TodoController {
+public class   TodoController {
     @Autowired
             private Todoservices todoservices;
 Random random=new Random();
     Logger logger= LoggerFactory.getLogger(TodoController.class);
 @PostMapping
     public ResponseEntity<Todo> createtodohandler(@RequestBody Todo todo) {
+
+//    String str=null;
+//    logger.info("{}",str.length());
     int id = random.nextInt(99999);
     todo.setId(id);
     Date currdate=new Date();
@@ -56,6 +59,13 @@ return ResponseEntity.ok(todo);
     public ResponseEntity<String> deletetodo(@PathVariable int todoId){
 todoservices.deleteTodo(todoId);
 return ResponseEntity.ok("todo successfully created");
+
+    }
+    @ExceptionHandler(NullPointerException.class)
+    public String nullpointerexceptionhandler(NullPointerException ex){
+        System.out.println(ex.getMessage());
+        System.out.println("nullpointer exception genrated");
+        return "Null pointer exception genrated"+ex.getMessage();
     }
     }
 
